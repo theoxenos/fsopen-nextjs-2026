@@ -53,6 +53,10 @@ const blogs: IBlog[] = [
 
 export const getBlogs = () => blogs;
 
+export const getBlogById = (id: string) => (
+    blogs.find((blog) => blog.id === id)
+);
+
 export const addBlog = (blog: IBlog) => {
   blogs.push(blog);
 };

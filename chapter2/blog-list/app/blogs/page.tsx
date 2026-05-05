@@ -1,4 +1,5 @@
 import { IBlog, getBlogs } from "@/app/services/blogService";
+import Link from "next/link";
 
 const Blogs = () => {
   const blogs: IBlog[] = getBlogs();
@@ -6,15 +7,16 @@ const Blogs = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <ul>
         {blogs.map((blog: IBlog) => (
-          <li key={blog.id}>
-            <a href={blog.url}>{blog.title}</a> by {blog.author}
-            <br />
-            {`Likes: ${blog.likes}`}
-          </li>
+            <div key={blog.id} style={{ border: "1px solid black", marginBottom: "0.5rem", padding: "0.5rem" }}>
+                <h2><Link href={`blogs/${blog.id}`}>{blog.title}</Link></h2>
+                <ul>
+                    <li>Author: {blog.author}</li>
+                    <li>Url: {blog.url}</li>
+                    <li>Likes: {blog.likes}</li>
+                </ul>
+            </div>
         ))}
-      </ul>
     </div>
   );
 };
