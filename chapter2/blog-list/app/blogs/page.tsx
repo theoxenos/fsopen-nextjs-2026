@@ -2,7 +2,7 @@ import { IBlog, getBlogs } from "@/app/services/blogService";
 import Link from "next/link";
 
 const Blogs = () => {
-  const blogs: IBlog[] = getBlogs();
+  const blogs: IBlog[] = getBlogs().toSorted((a, b) => b.likes - a.likes);
 
   return (
     <div>
