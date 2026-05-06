@@ -60,3 +60,10 @@ export const getBlogById = (id: string) => (
 export const addBlog = (blog: IBlog) => {
   blogs.push(blog);
 };
+
+export const updateBlogLikes = (id: string) => {
+  const blog = getBlogById(id);
+  if (blog) {
+    blog.likes++;
+  }
+};
