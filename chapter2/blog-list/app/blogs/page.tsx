@@ -2,7 +2,7 @@ import { IBlog, getBlogs } from "@/app/services/blogService";
 import Link from "next/link";
 
 const Blogs = async ({searchParams} : {searchParams: Promise<{filter?: string}>}) => {
-  const blogs: IBlog[] = getBlogs();
+  const blogs: IBlog[] = await getBlogs();
 
   const filter = await searchParams;
   const filteredBlogs = blogs
@@ -21,7 +21,7 @@ const Blogs = async ({searchParams} : {searchParams: Promise<{filter?: string}>}
       <div>
         {filteredBlogs.map((blog: IBlog) => (
             <div key={blog.id} style={{ border: "1px solid black", marginBottom: "0.5rem", padding: "0.5rem" }}>
-              <h3><Link href={`blogs/${blog.id}`}>{blog.title}</Link></h3>
+              <h3><Link href={`/blogs/${blog.id}`}>{blog.title}</Link></h3>
               <ul>
                 <li>Author: {blog.author}</li>
                 <li>Url: {blog.url}</li>

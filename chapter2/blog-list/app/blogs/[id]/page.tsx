@@ -4,7 +4,7 @@ import {likeBlog} from "@/app/actions/blogs";
 
 const BlogPage = async ({params}: { params: Promise<{ id: string }> }) => {
     const {id} = await params;
-    const blog = getBlogById(id);
+    const blog = await getBlogById(Number(id));
 
     if (!blog) return (
         notFound()
@@ -17,7 +17,7 @@ const BlogPage = async ({params}: { params: Promise<{ id: string }> }) => {
                 <input type="hidden" name="id" value={id} />
                 <ul>
                     <li>Author: {blog.author}</li>
-                    <li>Url: <a href={blog.url}>{blog.url}</a></li>
+                    <li>Url: {blog.url? <a href={blog.url}>{blog.url}</a> : null}</li>
                     <li>
                         Likes: {blog.likes}
                         <button type="submit">Like</button>

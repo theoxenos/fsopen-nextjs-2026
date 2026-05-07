@@ -1,69 +1,22 @@
-export interface IBlog {
-  id: string;
-  title: string;
-  author: string;
-  url: string;
-  likes: number;
-}
+import {eq, ilike} from "drizzle-orm"
+import {db} from "@/app/db"
+import {blogs} from "@/app/db/schema";
 
-const blogs: IBlog[] = [
-  {
-    id: "5a422a851b54a676234d17f7",
-    title: "React patterns",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-  },
-  {
-    id: "5a422aa71b54a676234d17f8",
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-  },
-  {
-    id: "5a422b3a1b54a676234d17f9",
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-  },
-  {
-    id: "5a422b891b54a676234d17fa",
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-    likes: 10,
-  },
-  {
-    id: "5a422ba71b54a676234d17fb",
-    title: "TDD harms architecture",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
-  },
-  {
-    id: "5a422bc61b54a676234d17fc",
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-  },
-];
+export type IBlog = typeof blogs.$inferSelect;
+export type IBlogRequest = Omit<IBlog, "id" | "likes">; // $inferInsert
 
-export const getBlogs = () => blogs;
+export const getBlogs = async (filter?: string) => db.query.blogs.findMany();
 
-export const getBlogById = (id: string) => (
-    blogs.find((blog) => blog.id === id)
-);
+export const getBlogById = async (id: number) =>
+    db.query.blogs.findFirst({
+        where: eq(blogs.id, id)
+    });
 
-export const addBlog = (blog: IBlog) => {
-  blogs.push(blog);
-};
+export const addBlog = async (blog: IBlogRequest) => db.insert(blogs).values(blog);
 
-export const updateBlogLikes = (id: string) => {
-  const blog = getBlogById(id);
-  if (blog) {
-    blog.likes++;
-  }
+export const updateBlogLikes = async (id: number) => {
+    const blog = await getBlogById(id);
+    if (blog) {
+        await db.update(blogs).set({likes: ++blog.likes}).where(eq(blogs.id, id));
+    }
 };
