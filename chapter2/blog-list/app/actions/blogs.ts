@@ -9,7 +9,8 @@ export const createBlog = async (formData: FormData) => {
     const url = formData.get("url") as string;
     const author = formData.get("author") as string;
 
-    await addBlog({title, url, author});
+    //TODO: Remove hardcoded userId
+    await addBlog({title, url, author, userId: 1});
 
     revalidatePath("/blogs");
     redirect("/blogs");
