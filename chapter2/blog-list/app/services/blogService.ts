@@ -5,7 +5,10 @@ import {blogs} from "@/app/db/schema";
 export type IBlog = typeof blogs.$inferSelect;
 export type IBlogRequest = Omit<IBlog, "id" | "likes">; // $inferInsert
 
-export const getBlogs = async (filter?: string) => db.query.blogs.findMany();
+export const getBlogs = async (filter?: string) => 
+    db.query.blogs.findMany({
+        where: ilike(blogs.title, `%${filter || ""}%`),
+    });
 
 export const getBlogById = async (id: number) =>
     db.query.blogs.findFirst({
