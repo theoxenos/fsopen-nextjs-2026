@@ -3,14 +3,19 @@
 import {redirect} from "next/navigation";
 import {addBlog, updateBlogLikes} from "../services/blogService";
 import {revalidatePath} from "next/cache";
+import {auth} from "@/auth";
 
 export const createBlog = async (formData: FormData) => {
+    const session = await auth();
+    if(!session) {
+        redirect("/login");
+    }
+
     const title = formData.get("title") as string;
     const url = formData.get("url") as string;
     const author = formData.get("author") as string;
 
-    //TODO: Remove hardcoded userId
-    await addBlog({title, url, author, userId: 1});
+    await addBlog({title, url, author});
 
     revalidatePath("/blogs");
     redirect("/blogs");
