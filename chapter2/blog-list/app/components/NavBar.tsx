@@ -5,7 +5,7 @@ import {useSession, signOut} from "next-auth/react";
 
 const NavBar = () => {
     const {data: session} = useSession();
-    
+
     return (
         <nav>
             <Link href="/">home</Link>
@@ -22,7 +22,11 @@ const NavBar = () => {
                     <button onClick={() => signOut()}>sign out</button>
                 </>
             ) : (
-                <Link href="/login">login</Link>
+                <>
+                    <Link href="/login">login</Link>
+                    {" | "}
+                    <Link href="/register">register</Link>
+                </>
             )}
         </nav>
     );
