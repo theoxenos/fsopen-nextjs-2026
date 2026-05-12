@@ -14,10 +14,10 @@ const BlogPage = async ({params}: { params: Promise<{ id: string }> }) => {
         <div>
             <h2>{blog.title}</h2>
             <form action={likeBlog}>
-                <input type="hidden" name="id" value={id} />
+                <input type="hidden" name="id" value={id}/>
                 <ul>
                     <li>Author: {blog.author}</li>
-                    <li>Url: {blog.url? <a href={blog.url}>{blog.url}</a> : null}</li>
+                    <li>Url: {blog.url ? <a href={blog.url}>{blog.url}</a> : null}</li>
                     <li>
                         Likes: {blog.likes}
                         <button type="submit">Like</button>

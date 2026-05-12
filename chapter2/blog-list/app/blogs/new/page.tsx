@@ -1,22 +1,33 @@
 "use client"
 
 import {createBlog} from "@/app/actions/blogs";
-import {useActionState} from "react";
+import {useActionState, useEffect} from "react";
+import {NotificationType, useNotification} from "@/app/components/NotificationContext";
+import {useRouter} from "next/navigation";
 
 const NewBlog = () => {
     const initialValues = {title: "", author: "", url: ""};
-    const [state, formAction] = useActionState(createBlog, {errors: [], values: initialValues})
+    const [state, formAction] = useActionState(createBlog, {errors: [], values: initialValues, success: false})
+    const {showNotification} = useNotification();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (state.success) {
+            const messages = ["Blog created successfully!"];
+            showNotification(messages, NotificationType.SUCCESS);
+
+            router.push("/blogs");
+            return;
+        }
+        if (state.errors.length > 0) {
+            const messages = state.errors;
+            showNotification(messages, NotificationType.ERROR);
+        }
+    }, [state, showNotification, router])
 
     return (
         <div>
             <h1>New Blog</h1>
-            {state.errors?.length > 0 && (
-                <div style={{marginBottom: "1.5rem", padding: "0.5rem", border: "1px solid red"}}>
-                    {state.errors.map((error, index) => (
-                        <p key={index} style={{color: "red"}}>{error}</p>
-                    ))}
-                </div>
-            )}
             <form action={formAction}>
                 <div style={{marginBottom: "1.5rem"}}>
                     <label htmlFor="title">Title: </label>

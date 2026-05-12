@@ -3,10 +3,9 @@
 import {users} from "@/app/db/schema";
 import bcrypt from "bcryptjs";
 import {db} from "@/app/db";
-import {redirect} from "next/navigation";
 import {getUserByUsername} from "@/app/services/userService";
 
-export const registerUser = async (prevState: {errors: string[]}, formData: FormData) => {
+export const registerUser = async (prevState: { errors: string[], success: boolean }, formData: FormData) => {
     const name = formData.get("name") as string;
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
@@ -27,15 +26,16 @@ export const registerUser = async (prevState: {errors: string[]}, formData: Form
     }
     
     if(errors.length > 0) {
-        return {errors};
+        return {errors, success: false};
     }
     
     if(password !== confirmPassword) {
-        return {errors: ["Passwords do not match"]};
+        errors.push("Passwords do not match");
+        return {errors, success: false};
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
     await db.insert(users).values({name, username, passwordHash});
 
-    redirect("/login");
+    return {errors, success: true};
 }
