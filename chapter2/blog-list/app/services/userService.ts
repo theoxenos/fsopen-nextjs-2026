@@ -9,3 +9,7 @@ export const getUserByUsername = async (username: string) =>
         where: eq(users.username, username),
         with: {blogs: true}
     });
+
+export const setTokenForUser = async (id: number, token: string) => (
+    db.update(users).set({token}).where(eq(users.id, id))
+);

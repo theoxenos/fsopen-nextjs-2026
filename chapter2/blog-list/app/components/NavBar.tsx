@@ -18,10 +18,10 @@ const NavBar = () => {
             </div>
             <div>
                 {session ? (
-                    <div className="flex flex-col">
-                        <em className="me-2">{session.user?.name} logged in</em>
+                    <div className="flex gap-2">
+                        <Link href="/me" className="text-lg font-light hover:underline">{session.user?.name}</Link>
                         <button
-                            className="text-sm text-black hover:text-white rounded outline-amber-800 outline-1 hover:bg-red-600 hover:outline-red-800 cursor-pointer"
+                            className="cursor-pointer bg-red-500 hover:bg-red-700 text-white px-1 rounded"
                             onClick={() => signOut()}>Sign Out
                         </button>
                     </div>
