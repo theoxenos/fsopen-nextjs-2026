@@ -1,37 +1,31 @@
-import { IBlog, getBlogs } from "@/app/services/blogService";
-import Link from "next/link";
+import {getBlogs, IBlog} from "@/app/services/blogService";
+import BlogItem from "@/app/blogs/BlogItem";
 
-const Blogs = async ({searchParams} : {searchParams: Promise<{filter?: string}>}) => {
-  const blogs: IBlog[] = await getBlogs();
+const Blogs = async ({searchParams}: { searchParams: Promise<{ filter?: string }> }) => {
+    const blogs: IBlog[] = await getBlogs();
 
-  const filter = await searchParams;
-  const filteredBlogs = blogs
-      .filter((blog) => blog.title.toLowerCase().includes(filter.filter?.toLowerCase() || ""))
-      .toSorted((a, b) => b.likes - a.likes);
-  
-  return (
-    <div>
-      <h2>Blogs</h2>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <form method="get">
-          <input type="text" name="filter" placeholder="Filter by title" defaultValue={filter.filter} />
-          <button type="submit">Filter</button>
-        </form>
-      </div>
-      <div>
-        {filteredBlogs.map((blog: IBlog) => (
-            <div key={blog.id} style={{ border: "1px solid black", marginBottom: "0.5rem", padding: "0.5rem" }}>
-              <h3><Link href={`/blogs/${blog.id}`}>{blog.title}</Link></h3>
-              <ul>
-                <li>Author: {blog.author}</li>
-                <li>Url: {blog.url}</li>
-                <li>Likes: {blog.likes}</li>
-              </ul>
+    const filter = await searchParams;
+    const filteredBlogs = blogs
+        .filter((blog) => blog.title.toLowerCase().includes(filter.filter?.toLowerCase() || ""))
+        .toSorted((a, b) => b.likes - a.likes);
+
+    return (
+        <div className="container mx-auto p-4">
+            <h2 className="text-2xl font-bold mb-4">Blogs</h2>
+            <div className="mb-4">
+                <form method="get" className="flex">
+                    <input type="text" name="filter" placeholder="Filter by title" defaultValue={filter.filter}
+                           className="form-input border-e-0 rounded-e-none"/>
+                    <button type="submit" className="btn btn-primary rounded-s-none">Filter</button>
+                </form>
             </div>
-        ))}
-      </div>
-    </div>
-  );
+            <div>
+                {filteredBlogs.map((blog: IBlog) => (
+                    <BlogItem key={blog.id} blog={blog}/>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default Blogs;

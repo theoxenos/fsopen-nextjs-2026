@@ -23,7 +23,7 @@ const Notification = () => {
     }
 
     return (
-        <div className={`mb-6 p-2 border rounded ${colorClasses()}`}>
+        <div className={`my-6 mx-4 p-2 border rounded ${colorClasses()}`}>
             {messages.map((message, index) => <p key={index}>{message}</p>)}
         </div>
     );

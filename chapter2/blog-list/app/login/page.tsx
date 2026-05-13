@@ -30,18 +30,18 @@ const LoginPage = () => {
     }
 
     return (
-        <div>
-            <h2>Login</h2>
+        <div className="container mx-auto p-4 max-w-md">
+            <h2 className="text-2xl font-bold mb-4">Login</h2>
             <form onSubmit={handleSubmit}>
-                <div style={{marginBottom: "1.5rem"}}>
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" id="username" name="username" required/>
+                <div className="mb-4">
+                    <label htmlFor="username" className="block font-medium">Username:</label>
+                    <input type="text" id="username" name="username" className="form-input" required/>
                 </div>
-                <div style={{marginBottom: "1.5rem"}}>
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" required/>
+                <div className="mb-4">
+                    <label htmlFor="password" className="block font-medium">Password:</label>
+                    <input type="password" id="password" name="password" className="form-input" required/>
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit" className="btn btn-primary">Login</button>
             </form>
         </div>
     );

@@ -27,27 +27,63 @@ const RegistrationPage = () => {
 
 
     return (
-        <div>
-            <h2>Registration Page</h2>
-            <form action={formAction}>
+        <div className="container mx-auto p-4 max-w-md">
+            <h2 className="text-2xl font-bold mb-6">Registration Page</h2>
+            <form action={formAction} className="space-y-4">
                 <div className="mb-6">
-                    <label htmlFor="name">Name:</label>
-                    <input type="text" id="name" name="name" required/>
+                    <label htmlFor="name" className="block font-medium mb-2">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        className="form-input w-full"
+                        minLength={2}
+                        maxLength={100}
+                        placeholder="Enter your full name"
+                    />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" id="username" name="username" required/>
+                    <label htmlFor="username" className="block font-medium mb-2">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                        className="form-input w-full"
+                        minLength={4}
+                        maxLength={50}
+                        placeholder="Choose a username (min 4 characters)"
+                    />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" required/>
+                    <label htmlFor="password" className="block font-medium mb-2">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        className="form-input w-full"
+                        minLength={4}
+                        placeholder="Min 4 characters"
+                    />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required/>
+                    <label htmlFor="confirmPassword" className="block font-medium mb-2">Confirm Password:</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        required
+                        className="form-input w-full"
+                        minLength={4}
+                        placeholder="Re-enter your password"
+                    />
                 </div>
                 <div>
-                    <button type="submit">Register</button>
+                    <button type="submit" className="btn btn-primary w-full">
+                        Register
+                    </button>
                 </div>
             </form>
         </div>

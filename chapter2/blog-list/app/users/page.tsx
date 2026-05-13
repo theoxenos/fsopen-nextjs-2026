@@ -5,12 +5,13 @@ const Users = async () => {
     const users = await getUsers();
 
     return (
-        <div>
-            <h1>Users</h1>
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Users</h1>
             <ul>
                 {users.map(user =>
-                    <li key={user.id}>
-                        <Link href={`/users/${user.username}`}>{user.name}</Link>
+                    <li key={user.id} className="mb-2">
+                        <Link href={`/users/${user.username}`}
+                              className="text-blue-500 hover:underline">{user.name}</Link>
                     </li>
                 )}
             </ul>
