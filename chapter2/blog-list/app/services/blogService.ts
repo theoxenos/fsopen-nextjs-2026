@@ -23,12 +23,12 @@ export const addBlog = async (blog: IBlogRequest) => {
         throw new Error("User not authenticated");
     }
 
-    return db.insert(blogs).values({...blog, userId: user.id});
+    return db.insert(blogs).values({...blog, userId: user.id}).returning({id: blogs.id});
 };
 
 export const updateBlogLikes = async (id: number) => {
     const blog = await getBlogById(id);
     if (blog) {
-        await db.update(blogs).set({likes: ++blog.likes}).where(eq(blogs.id, id));
+        await db.update(blogs).set({likes: blog.likes + 1}).where(eq(blogs.id, id));
     }
 };

@@ -13,6 +13,9 @@ export const getUserByUsername = async (username: string) =>
 export const getUserByToken = async (token: string) =>
     db.query.users.findFirst({
         where: eq(users.token, token),
+        columns: {
+            passwordHash: false,
+        },
         with: {
             blogs: {
                 columns: {

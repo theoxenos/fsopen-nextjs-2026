@@ -3,7 +3,8 @@
 import {redirect} from "next/navigation";
 import {addBlog, updateBlogLikes} from "../services/blogService";
 import {revalidatePath} from "next/cache";
-import {auth} from "@/auth";
+import {getCurrentUser} from "@/app/services/sessionService";
+import {addToReadingList} from "@/app/services/readingListService";
 
 interface ICreateBlogState {
     errors: string[];
@@ -14,10 +15,8 @@ interface ICreateBlogState {
 export const createBlog = async (
     prevState: ICreateBlogState, formData: FormData) => {
 
-    const session = await auth();
-    if (!session) {
-        redirect("/login");
-    }
+    const currentUser = await getCurrentUser();
+    if (!currentUser) redirect("/login");
 
     const title = formData.get("title") as string;
     const url = formData.get("url") as string;
@@ -39,9 +38,12 @@ export const createBlog = async (
         return {errors, values: {title, url, author}, success: false};
     }
 
-    await addBlog({title, url, author});
+    const [addedBlog] = (await addBlog({title, url, author}));
+    await addToReadingList(Number(currentUser?.id), addedBlog.id);
 
     revalidatePath("/blogs");
+    revalidatePath("/me");
+
     return {errors: [], values: {title, url, author}, success: true};
 };
 
@@ -51,4 +53,14 @@ export const likeBlog = async (formData: FormData) => {
 
     revalidatePath(`/blogs/${id}`);
     revalidatePath("/blogs");
+};
+
+export const bookmarkBlog = async (formData: FormData) => {
+    const currentUser = await getCurrentUser();
+    if (!currentUser) redirect("/login");
+
+    const blogId = Number(formData.get("id"));
+    await addToReadingList(blogId, Number(currentUser.id));
+
+    revalidatePath(`/blogs/${blogId}`);
 };

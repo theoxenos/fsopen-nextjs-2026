@@ -1,0 +1,5 @@
+@token = 6438198f-437a-4119-ba3f-13cacd5e28ef
+@baseUrl = http://localhost:3000/api/me
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}

@@ -8,6 +8,20 @@
       "when": 1778674680110,
       "tag": "0000_purple_vance_astro",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779100813645,
+      "tag": "0001_nostalgic_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779101047666,
+      "tag": "0002_dark_joshua_kane",
+      "breakpoints": true
     }
   ]
 }
