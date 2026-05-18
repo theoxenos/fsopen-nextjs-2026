@@ -14,7 +14,7 @@ type NotificationType = typeof NotificationType[keyof typeof NotificationType];
 type NotificationContextType = {
     messages: string[],
     type: NotificationType,
-    showNotification: (messages: string[], type?: NotificationType) => void
+    showNotification: (messages: string[] | string, type?: NotificationType) => void
 }
 
 const NotificationContext = createContext<NotificationContextType>({
@@ -29,8 +29,8 @@ export const NotificationProvider = ({children}: { children: React.ReactNode }) 
     const [type, setType] = useState<NotificationType>(NotificationType.SUCCESS);
 
     // AI suggestion to use useCallback to fix re-render bug
-    const showNotification = useCallback((messages: string[], type?: NotificationType) => {
-        setMessages(messages);
+    const showNotification = useCallback((messages: string[] | string, type?: NotificationType) => {
+        setMessages(typeof messages === "string" ? [messages] : messages);
         setType(type || NotificationType.SUCCESS);
         setTimeout(() => setMessages([]), 5000);
     }, []);

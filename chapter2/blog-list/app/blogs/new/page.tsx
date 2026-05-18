@@ -13,8 +13,8 @@ const NewBlog = () => {
 
     useEffect(() => {
         if (state.success) {
-            const messages = ["Blog created successfully!"];
-            showNotification(messages, NotificationType.SUCCESS);
+            const message = "Blog created successfully!";
+            showNotification(message, NotificationType.SUCCESS);
 
             router.push("/blogs");
             return;
